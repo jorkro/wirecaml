@@ -10,7 +10,6 @@ This tool combines data-flow analysis and machine learning to find software vuln
 Due to its size, the data set will have to be downloaded separately. The tarball is ~1.6GB and once unpacked, the resulting data set is ~6GB.
 
 ```
-cd data/
 curl -L -o wirecaml-data.tar.gz https://www.dropbox.com/s/i6e4kv64eudoq6m/wirecaml-data.tar.gz?dl=1
 tar xzf wirecaml-data.tar.gz
 rm wirecaml-data.tar.gz
