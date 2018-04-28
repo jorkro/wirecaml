@@ -3,8 +3,8 @@
 ## What does it stand for?
 WIRECAML stands for "Weakness Identification Research Employing CFG Analysis and Machine Learning"
 
-## What is the basis for this research?
-The thesis that I've written can be found in the docs/ directory.
+## What does it do?
+This tool combines data-flow analysis and machine learning to find software vulnerabilities (SQLi and XSS) in PHP applications. The thesis that I've written on this topic can be found in the docs/ directory.
 
 ## How do I get the data set?
 Due to its size, the data set will have to be downloaded separately. The tarball is ~1.6GB and once unpacked, the resulting data set is ~6GB.
@@ -30,18 +30,18 @@ python -m wirecaml <command>
 
 The following commands may be of interest:
 
-| Command         | Description                                                                                                                          |
-|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| clean_all       | Remove the file sets and transformation files. This is the same as running clean_set and clean_transform together                    |
-| clean_set       | Remove the file sets                                                                                                                 |
-| clean_transform | Remove the transformation files                                                                                                      |
-| compare_tools   | Compare the results of 4 OSS tools (Pixy, RIPS, WAP, Yasca) and a generated model using the F<sub>1</sub> score                      |
-| count_sets      | Provide metrics on the transformed sets (# vulnerable vs. # non-vulnerable)                                                          |
-| display_histo   | Show the probability histograms of the non-vulnerable and vulnerable class                                                           |
-| display_model   | Show the PR curve and AUC-PR value for the given model                                                                               |
-| select_features | Select the top *k* features using the *χ<sup>2</sup>*-test. *k* can be specified in the config.ini using the parameter *kFeatures*   |
-| store_outliers  | Store all outliers where the predicted class != actual class into a CSV file                                                         |
-| tune_params     | Generate tuning parameters using a grid search algorithm for the specified model. The parameters can then be added to the config.ini |
+| Command         | Description                                                                                                                               |
+|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| clean_all       | Remove the file sets and transformation files. This is the same as running clean_set and clean_transform together                         |
+| clean_set       | Remove the file sets                                                                                                                      |
+| clean_transform | Remove the transformation files                                                                                                           |
+| compare_tools   | Compare the results of 4 OSS tools (Pixy, RIPS, WAP, Yasca) and a generated model using the F<sub>1</sub> score                           |
+| count_sets      | Provide metrics on the transformed sets (# vulnerable vs. # non-vulnerable)                                                               |
+| display_histo   | Show the probability histograms of the non-vulnerable and vulnerable class                                                                |
+| display_model   | Show the PR curve and AUC-PR value for the given model                                                                                    |
+| select_features | Select the top *k* features using the *χ<sup>2</sup>*-test. *k* can be specified in the config.ini file using the parameter *kFeatures*   |
+| store_outliers  | Store all outliers where the predicted class != actual class into a CSV file                                                              |
+| tune_params     | Generate tuning parameters using a grid search algorithm for the specified model. The parameters can then be added to the config.ini file |
 
 Commands can also be chained together, such as:
 ```
@@ -55,4 +55,4 @@ select_features,display_model
 The config file can be used to specify the model (parameter *model*), the data set (*SelectedDataset*) and the vulnerability type (*SelectedVulnerabilityType*). 
 
 ## I have questions. Who can I ask them?
-If you are interested in this research but have questions, just send me an e-mail (**jorrit at wafel dot org**) and I will try to answer your questions.
+If you are interested in this research but have questions, just send me an e-mail (**jorrit at wafel dot org**) and I will try to answer them.
