@@ -325,10 +325,13 @@ def get_xy_with_orig(dataset, set_name, language, vuln_type, features=None):
         return orig, X, Y
 
 
-def delete_transforms():
+def delete_transforms(datasets=None):
     remove = False
 
-    for dataset in ['NVD', 'SAMATE']:
+    if datasets is None:
+        datasets = ['NVD', 'SAMATE']
+
+    for dataset in datasets:
         for language in config.get_list('dataset', 'Languages'):
             for vuln_type in config.get_list('dataset', 'Vulnerabilities'):
                 transform_filename = get_transform_filename(dataset, language, vuln_type)

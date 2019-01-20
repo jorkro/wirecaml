@@ -31,7 +31,7 @@ X_test = None
 Y_test = None
 
 dependencies = {'clean_set': ['clean_transform'],
-                'clean_all': ['clean_set'],
+                'clean_all': ['clean_set', 'clean_custom'],
                 'create_features': ['create_set'],
                 'create_transform': ['create_set'],
                 'create_model': ['create_transform'],
@@ -41,10 +41,12 @@ dependencies = {'clean_set': ['clean_transform'],
                 'filter_features': ['create_transform'],
                 'test_model': ['create_model'],
                 'store_outliers': ['create_model'],
+                'store_custom': ['create_model'],
                 'store_all': ['create_model'],
                 'display_model': ['test_model'],
                 'display_histo': ['test_model'],
-                'compare_tools': ['create_model']}
+                'compare_tools': ['create_model'],
+                'count_sets': ['create_transform']}
 
 
 def get_dependencies(i):
@@ -97,6 +99,16 @@ def cmd_clean_set():
     sel_ds = config.get_str('dataset', 'SelectedDataset')
 
     dataset_factory.get_dataset(sel_ds).delete_sets()
+
+
+def cmd_clean_custom():
+    print_banner("Cleaning custom set")
+
+    sel_ds = 'Custom'
+
+    dataset_factory.get_dataset(sel_ds).delete_sets()
+
+    transform.delete_transforms([sel_ds])
 
 
 def cmd_clean_transform():
@@ -227,30 +239,32 @@ def cmd_store_outliers():
 
     global model
 
-    threshold = 0.5
+    sel_ds = config.get_str('dataset', 'SelectedDataset')
 
-    if config.get_boolean('analysis', 'UseCustomTestSet'):
-        print_notice("Creating a custom test set")
-        sel_ds = 'Custom'
-        threshold = 0.0
-
-        my_sets = dataset_factory.get_dataset(sel_ds).get_sets()
-
-        transform.transform_sets(sel_ds, my_sets, language)
-
-        orig, X, Y = transform.get_xy_with_orig(sel_ds, 'testing_set', language, vuln_type, selected_features)
-
-        # TODO Delete transforms and data set
-        #dataset_factory.get_dataset(sel_ds).delete_sets()
-
-    else:
-        sel_ds = config.get_str('dataset', 'SelectedDataset')
-
-        orig, X, Y = transform.get_xy_with_orig(sel_ds, 'testing_set', language, vuln_type, selected_features)
+    orig, X, Y = transform.get_xy_with_orig(sel_ds, 'testing_set', language, vuln_type, selected_features)
 
     X = sync_features(X)
 
-    data.store_data(model, orig, X, Y, just_outliers=True, threshold=threshold)
+    data.store_data(model, orig, X, Y, just_outliers=True)
+
+
+def cmd_store_custom():
+    print_banner("Store custom test set results")
+
+    global model
+
+    print_notice("Creating a custom test set")
+    sel_ds = 'Custom'
+
+    my_sets = dataset_factory.get_dataset(sel_ds).get_sets()
+
+    transform.transform_sets(sel_ds, my_sets, language)
+
+    orig, X, Y = transform.get_xy_with_orig(sel_ds, 'testing_set', language, vuln_type, selected_features)
+
+    X = sync_features(X)
+
+    data.store_data(model, orig, X, Y, just_outliers=True, threshold=0.0)
 
 
 def cmd_store_all():
